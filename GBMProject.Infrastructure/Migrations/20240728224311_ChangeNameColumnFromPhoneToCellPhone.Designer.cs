@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GBMProject.Infrastructure.Migrations
 {
     [DbContext(typeof(GbmProjectDbContext))]
-    [Migration("20240725040914_Fix5")]
-    partial class Fix5
+    [Migration("20240728224311_ChangeNameColumnFromPhoneToCellPhone")]
+    partial class ChangeNameColumnFromPhoneToCellPhone
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -31,17 +31,23 @@ namespace GBMProject.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Cargo")
+                    b.Property<string>("CargoTransported")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("NVARCHAR")
+                        .HasColumnType("VARCHAR")
                         .HasColumnName("Cargo");
 
-                    b.Property<string>("Date")
+                    b.Property<string>("DeliveryDate")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("NVARCHAR")
                         .HasColumnName("Date");
+
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("Status");
 
                     b.Property<string>("Destiny")
                         .IsRequired()
@@ -70,7 +76,7 @@ namespace GBMProject.Infrastructure.Migrations
                     b.HasIndex(new[] { "Id" }, "IX_Delivery_Id")
                         .IsUnique();
 
-                    b.ToTable("Delivery");
+                    b.ToTable("Delivery", (string)null);
                 });
 
             modelBuilder.Entity("GBMProject.Core.Entities.Driver", b =>
@@ -80,8 +86,14 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("DATETIME")
+                        .HasColumnType("DATE")
                         .HasColumnName("BirthDate");
+
+                    b.Property<string>("CellPhone")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("CellPhone");
 
                     b.Property<string>("CnhCategory")
                         .IsRequired()
@@ -92,7 +104,7 @@ namespace GBMProject.Infrastructure.Migrations
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasMaxLength(11)
-                        .HasColumnType("NVARCHAR")
+                        .HasColumnType("VARCHAR")
                         .HasColumnName("Cpf");
 
                     b.Property<string>("Name")
@@ -101,17 +113,13 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("NVARCHAR")
                         .HasColumnName("Name");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("Celular");
-
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Cpf" }, "IX_Driver_Cpf");
+                    b.HasIndex(new[] { "Cpf" }, "IX_Driver_Cpf")
+                        .IsUnique();
 
-                    b.HasIndex(new[] { "Id" }, "IX_Driver_Id");
+                    b.HasIndex(new[] { "Id" }, "IX_Driver_Id")
+                        .IsUnique();
 
                     b.ToTable("Driver", (string)null);
                 });
@@ -127,13 +135,6 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Color");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("DATETIME")
-                        .HasColumnName("CreatedAt");
-
-                    b.Property<Guid?>("DriverId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -151,11 +152,11 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Plate");
 
-                    b.HasKey("Id");
+                    b.Property<int>("YearOfManifacture")
+                        .HasColumnType("INT")
+                        .HasColumnName("YearOfManifacture");
 
-                    b.HasIndex("DriverId")
-                        .IsUnique()
-                        .HasFilter("[DriverId] IS NOT NULL");
+                    b.HasKey("Id");
 
                     b.HasIndex(new[] { "Id" }, "IX_Truck_Id");
 
@@ -167,14 +168,14 @@ namespace GBMProject.Infrastructure.Migrations
             modelBuilder.Entity("GBMProject.Core.Entities.Delivery", b =>
                 {
                     b.HasOne("GBMProject.Core.Entities.Driver", "Driver")
-                        .WithMany()
+                        .WithMany("Deliveries")
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("DriverId");
 
                     b.HasOne("GBMProject.Core.Entities.Truck", "Truck")
-                        .WithMany()
+                        .WithMany("Deliveries")
                         .HasForeignKey("TruckId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -185,15 +186,14 @@ namespace GBMProject.Infrastructure.Migrations
                     b.Navigation("Truck");
                 });
 
+            modelBuilder.Entity("GBMProject.Core.Entities.Driver", b =>
+                {
+                    b.Navigation("Deliveries");
+                });
+
             modelBuilder.Entity("GBMProject.Core.Entities.Truck", b =>
                 {
-                    b.HasOne("GBMProject.Core.Entities.Driver", "Driver")
-                        .WithOne()
-                        .HasForeignKey("GBMProject.Core.Entities.Truck", "DriverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Truck_DriverId");
-
-                    b.Navigation("Driver");
+                    b.Navigation("Deliveries");
                 });
 #pragma warning restore 612, 618
         }

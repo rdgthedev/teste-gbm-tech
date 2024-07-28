@@ -8,18 +8,19 @@ public class Truck : Entity
         string plate,
         string model,
         string color,
+        int yearOfManifacture,
         int numberOfAxles)
     {
         Plate = plate;
         Model = model;
         Color = color;
         NumberOfAxles = numberOfAxles;
-        YearOfManifacture = DateTime.Now;
+        YearOfManifacture = yearOfManifacture;
     }
 
     public string Plate { get; private set; }
     public string Model { get; private set; }
-    public DateTime YearOfManifacture { get; private set; }
+    public int YearOfManifacture { get; private set; }
     public string Color { get; private set; }
     public int NumberOfAxles { get; private set; }
     public IReadOnlyCollection<Delivery> Deliveries { get; private set; }

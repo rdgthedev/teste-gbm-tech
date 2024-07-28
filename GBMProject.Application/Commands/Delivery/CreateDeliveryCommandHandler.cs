@@ -43,15 +43,25 @@ public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryComman
                 404,
                 "Não foi possível cadastrar a entrega",
                 "Caminhão não encontrado");
+        
+        var busyDriver = await _unitOfWork.Deliveries
+            .GetCreatedOrInProgressDeliveriesByDriverIdAndDate((Guid)request.DriverId!, (DateTime)request.DeliveryDate!, cancellationToken);
 
-        var deliveryExists = await _unitOfWork.Deliveries
-            .GetCreatedOrInProgressDeliveriesByTruckIdAndDate((Guid)request.TruckId!, (DateTime)request.DeliveryDate!, cancellationToken);
-
-        if (deliveryExists)
+        if (busyDriver)
             return new Result(
                 409,
                 "Não foi possível cadastrar a entrega, tente outra data",
-                "Já possuí um motorista vinculado a esse caminhão nesta data");
+                "O motorista já possui uma entrega pendente para esta data");
+
+        var busyTruck = await _unitOfWork.Deliveries
+            .GetCreatedOrInProgressDeliveriesByTruckIdAndDate((Guid)request.TruckId!, (DateTime)request.DeliveryDate!, cancellationToken);
+
+        if (busyTruck)
+            return new Result(
+                409,
+                "Não foi possível cadastrar a entrega",
+                "O caminhão já está vinculado a outro motorista nesta data");
+
 
         var delivery = new Core.Entities.Delivery(
             (DateTime)request.DeliveryDate!,

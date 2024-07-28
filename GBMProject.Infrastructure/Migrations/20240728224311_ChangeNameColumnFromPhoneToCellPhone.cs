@@ -5,24 +5,24 @@
 namespace GBMProject.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Fix9 : Migration
+    public partial class ChangeNameColumnFromPhoneToCellPhone : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "CreatedAt",
-                table: "Truck",
-                newName: "YearOfManifacture");
+                name: "Phone",
+                table: "Driver",
+                newName: "CellPhone");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "YearOfManifacture",
-                table: "Truck",
-                newName: "CreatedAt");
+                name: "CellPhone",
+                table: "Driver",
+                newName: "Phone");
         }
     }
 }

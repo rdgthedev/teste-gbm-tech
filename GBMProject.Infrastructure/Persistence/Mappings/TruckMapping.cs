@@ -26,7 +26,7 @@ public class TruckMapping : IEntityTypeConfiguration<Truck>
 
         builder.Property(t => t.YearOfManifacture)
             .HasColumnName("YearOfManifacture")
-            .HasColumnType("DATETIME")
+            .HasColumnType("INT")
             .IsRequired();
 
         builder.Property(t => t.Color)

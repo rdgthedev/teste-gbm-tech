@@ -51,7 +51,12 @@ public static class BuilderExtensions
     public static void AddServicesConfiguration(this IServiceCollection services)
     {
         services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-        services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
+        services.AddControllers().AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+        });
         services.AddScoped<ITruckRepository, TruckRepository>();
         services.AddScoped<IDriverRepository, DriverRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();

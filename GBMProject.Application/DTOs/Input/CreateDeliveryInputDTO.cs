@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace GBMProject.Application.DTOs.Input;
 
@@ -8,6 +9,7 @@ public class CreateDeliveryInputDTO
     /// Data da entrega
     /// </summary>
     [JsonProperty]
+    [DataType(DataType.Date)]
     public DateTime? DeliveryDate { get; set; }
     
     /// <summary>

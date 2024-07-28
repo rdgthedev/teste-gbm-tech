@@ -26,7 +26,7 @@ public class GetAllDriversQueryHandler : IRequestHandler<GetAllDriversQuery, Res
                 Cpf = d.Cpf,
                 CnhCategory = d.CnhCategory.ToString(),
                 BirthDate = d.BirthDate,
-                Phone = d.Phone
+                CellPhone = d.CellPhone
             });
 
         return new Result(200, driversOutput);

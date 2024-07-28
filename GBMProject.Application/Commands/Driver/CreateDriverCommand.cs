@@ -10,18 +10,18 @@ public class CreateDriverCommand : Command
         string cpf,
         string cnhCategory,
         DateTime? birthDate,
-        string phone)
+        string cellPhone)
     {
         Name = name;
         Cpf = cpf;
         CnhCategory = cnhCategory;
         BirthDate = birthDate ??= DateTime.MinValue;
-        Phone = phone;
+        CellPhone = cellPhone;
     }
 
     public string Name { get; private set; }
     public string Cpf { get; private set; }
     public string CnhCategory { get; private set; }
     public DateTime? BirthDate { get; private set; }
-    public string Phone { get; private set; }
+    public string CellPhone { get; private set; }
 }

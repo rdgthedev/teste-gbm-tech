@@ -22,14 +22,13 @@ public class CreateDriverCommandValidator : AbstractValidator<CreateDriverComman
         RuleFor(cdcv => cdcv.CnhCategory)
             .NotEmpty().WithMessage("A categoria da CNH é obrigatória")
             .Must(ValidateCategoryType.IsValid)
-            .WithMessage("A categoria da CNH é inválida")
             .WithMessage("O motorista precisa ter as categorias C, D ou E");
 
         RuleFor(cdcv => cdcv.Cpf)
             .NotEmpty().WithMessage("O cpf é obrigatório")
             .Length(11).WithMessage("Cpf deve conter 11 digitos");
 
-        RuleFor(cdcv => cdcv.Phone)
+        RuleFor(cdcv => cdcv.CellPhone)
             .NotEmpty().WithMessage("O telefone é obrigatório")
             .Length(11).WithMessage("O telefone deve conter 11 digitos");
     }

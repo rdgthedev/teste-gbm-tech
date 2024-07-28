@@ -27,7 +27,7 @@ public class DeliveryStatusFinishedCommandHandler : IRequestHandler<DeliveryStat
             return new Result(
                 409,
                 "Não foi possível alterar o status da entrega",
-                "O status atual não permite ser redefinido como cancelado");
+                "O status atual não permite ser redefinido para finalizada");
 
         _unitOfWork.Deliveries.Update(delivery);
         await _unitOfWork.CommitAsync(cancellationToken);

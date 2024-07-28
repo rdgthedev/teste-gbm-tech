@@ -37,7 +37,7 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
                 "Não foi possível cadastrar o motorista",
                 "Cpf já existe");
 
-        var phoneExists = await _unitOfWork.Drivers.GetByPhoneAsync(request.Phone, cancellationToken);
+        var phoneExists = await _unitOfWork.Drivers.GetByPhoneAsync(request.CellPhone, cancellationToken);
 
         if (phoneExists)
             return new Result(
@@ -50,7 +50,7 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
             request.Cpf,
             Enum.Parse<ECnhCategory>(request.CnhCategory),
             (DateTime)request.BirthDate!,
-            request.Phone);
+            request.CellPhone);
 
         await _unitOfWork.Drivers.CreateAsync(driver, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);

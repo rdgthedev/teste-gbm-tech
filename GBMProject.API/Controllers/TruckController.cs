@@ -70,7 +70,7 @@ public class TruckController : BaseController
     {
         try
         {
-            var command = new CreateTruckCommand(dto.Plate, dto.Model, dto.Color, dto.NumberOfAxles);
+            var command = new CreateTruckCommand(dto.Plate, dto.Model, dto.Color, dto.YearOfManifacture, dto.NumberOfAxles);
             var result = await _mediator.Send(command, cancellationToken);
 
             return result.StatusCode switch

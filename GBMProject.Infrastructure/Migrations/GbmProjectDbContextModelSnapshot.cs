@@ -83,8 +83,14 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("DATETIME")
+                        .HasColumnType("DATE")
                         .HasColumnName("BirthDate");
+
+                    b.Property<string>("CellPhone")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("CellPhone");
 
                     b.Property<string>("CnhCategory")
                         .IsRequired()
@@ -103,12 +109,6 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("NVARCHAR")
                         .HasColumnName("Name");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("Phone");
 
                     b.HasKey("Id");
 
@@ -149,8 +149,8 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Plate");
 
-                    b.Property<DateTime>("YearOfManifacture")
-                        .HasColumnType("DATETIME")
+                    b.Property<int>("YearOfManifacture")
+                        .HasColumnType("INT")
                         .HasColumnName("YearOfManifacture");
 
                     b.HasKey("Id");

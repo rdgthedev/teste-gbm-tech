@@ -34,9 +34,9 @@ public class CreateTruckCommandHandler : IRequestHandler<CreateTruckCommand, Res
             return new Result(
                 409,
                 "Não foi possível cadastrar o caminhão",
-                "A placa já existe");
+                "A placa já cadastrada");
 
-        var truck = new Core.Entities.Truck(request.Plate, request.Model, request.Color, request.NumberOfAxles);
+        var truck = new Core.Entities.Truck(request.Plate, request.Model, request.Color,request.YearOfManifacture, request.NumberOfAxles);
 
         await _unitOfWork.Trucks.CreateAsync(truck, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);

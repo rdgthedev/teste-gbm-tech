@@ -34,7 +34,7 @@ public class DriverRepository : IDriverRepository
         => await _context
             .Drivers
             .AsNoTracking()
-            .AnyAsync(d => d.Phone == phone, cancellationToken);
+            .AnyAsync(d => d.CellPhone == phone, cancellationToken);
     public async Task CreateAsync(Driver driver, CancellationToken cancellationToken)
         => await _context.Drivers.AddAsync(driver, cancellationToken);
 

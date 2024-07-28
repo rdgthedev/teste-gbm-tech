@@ -17,9 +17,10 @@ public class UpdateDriverCommandValidator : AbstractValidator<UpdateDriverComman
             .When(udc => !string.IsNullOrEmpty(udc.Name));
         
         RuleFor(udcv => udcv.CnhCategory)
-            .Must(CnhCategoryIsValid).WithMessage("A categoria da CNH é inválida")
+            .Must(CnhCategoryIsValid)
+            .WithMessage("O motorista precisa ter as categorias C, D ou E")
             .When(udc => !string.IsNullOrEmpty(udc.CnhCategory));
-        
+            
         RuleFor(udcv => udcv.Phone)
             .Length(11).WithMessage("O telefone deve conter 11 digitos")
             .When(udcv => !string.IsNullOrEmpty(udcv.Phone));

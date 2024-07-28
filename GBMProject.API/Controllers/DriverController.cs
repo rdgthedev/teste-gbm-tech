@@ -1,10 +1,8 @@
 ﻿using GBMProject.Application.Commands.Driver;
 using GBMProject.Application.DTOs.Input;
-using GBMProject.Application.Queries;
 using GBMProject.Application.Queries.Driver;
 using GBMProject.Application.Results;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -121,7 +119,7 @@ public class DriverController : BaseController
     {
         try
         {
-            var command = new CreateDriverCommand(dto.Name, dto.Cpf, dto.CnhCategory, dto.BirthDate, dto.Phone);
+            var command = new CreateDriverCommand(dto.Name, dto.Cpf, dto.CnhCategory, dto.BirthDate, dto.CellPhone);
             var result = await _mediator.Send(command, cancellationToken);
 
             return result.StatusCode switch
@@ -151,6 +149,22 @@ public class DriverController : BaseController
         }
     }
 
+    /// <summary>
+    /// Atualiza os dados de um motorista com os dados fornecidos.
+    /// </summary>
+    /// <param name="dto">Id do motorista que será atualizado.</param>
+    /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
+    /// <returns>Uma resposta HTTP que indica o resultado da operação de alteração do status.</returns>
+    /// <response code="400">Indica erros nos dados passados pelo usuário.</response>
+    /// <response code="404">Indica que o motorista não foi encontrado.</response>
+    /// <response code="409">Indica que foi tentado alterar os dados do motorista.</response>
+    /// <response code="500">Indica que ocorreu um erro interno.</response>
+    /// <response code="201">Indica sucesso na alteração dos dados de um motorista.</response>
+    [Produces("application/json")]
+    [SwaggerResponse(StatusCodes.Status204NoContent)]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erro de requisição")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Entrega não encontrada")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "Conflito ao criar o recurso")]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, UpdateDriverInputDTO dto, CancellationToken cancellationToken)
     {
@@ -161,6 +175,7 @@ public class DriverController : BaseController
 
             return result.StatusCode switch
             {
+                StatusCodes.Status404NotFound => NotFound(result),
                 StatusCodes.Status400BadRequest => BadRequest(result),
                 StatusCodes.Status409Conflict => Conflict(result),
                 _ => NoContent()

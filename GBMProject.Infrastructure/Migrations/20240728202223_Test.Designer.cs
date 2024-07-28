@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GBMProject.Infrastructure.Migrations
 {
     [DbContext(typeof(GbmProjectDbContext))]
-    [Migration("20240725215103_Fix7")]
-    partial class Fix7
+    [Migration("20240728202223_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -37,7 +37,7 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Cargo");
 
-                    b.Property<string>("Date")
+                    b.Property<string>("DeliveryDate")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("NVARCHAR")
@@ -86,7 +86,7 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("DATETIME")
+                        .HasColumnType("DATE")
                         .HasColumnName("BirthDate");
 
                     b.Property<string>("CnhCategory")
@@ -111,7 +111,7 @@ namespace GBMProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("VARCHAR")
-                        .HasColumnName("Celular");
+                        .HasColumnName("Phone");
 
                     b.HasKey("Id");
 
@@ -152,9 +152,9 @@ namespace GBMProject.Infrastructure.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Plate");
 
-                    b.Property<DateTime>("YearOfManifacture")
-                        .HasColumnType("DATETIME")
-                        .HasColumnName("CreatedAt");
+                    b.Property<int>("YearOfManifacture")
+                        .HasColumnType("INT")
+                        .HasColumnName("YearOfManifacture");
 
                     b.HasKey("Id");
 

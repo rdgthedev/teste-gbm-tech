@@ -29,7 +29,7 @@ public class GetDriverByIdQueryHandler : IRequestHandler<GetDriverByIdQuery, Res
             BirthDate = driver.BirthDate,
             CnhCategory = driver.CnhCategory.ToString(),
             Cpf = driver.Cpf,
-            Phone = driver.Phone
+            CellPhone = driver.CellPhone
         };
 
         return new Result(200, driverDetailsOutput);

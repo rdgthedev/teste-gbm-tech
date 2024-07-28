@@ -32,11 +32,11 @@ public class DriverMapping : IEntityTypeConfiguration<Driver>
 
         builder.Property(d => d.BirthDate)
             .HasColumnName("BirthDate")
-            .HasColumnType("DATETIME")
+            .HasColumnType("DATE")
             .IsRequired();
 
-        builder.Property(d => d.Phone)
-            .HasColumnName("Phone")
+        builder.Property(d => d.CellPhone)
+            .HasColumnName("CellPhone")
             .HasColumnType("VARCHAR")
             .HasMaxLength(11)
             .IsRequired();

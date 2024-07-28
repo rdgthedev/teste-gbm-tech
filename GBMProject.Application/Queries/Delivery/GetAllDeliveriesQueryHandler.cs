@@ -14,7 +14,7 @@ public class GetAllDeliveriesQueryHandler : IRequestHandler<GetAllDeliveriesQuer
 
     public async Task<Result> Handle(GetAllDeliveriesQuery request, CancellationToken cancellationToken)
     {
-        var deliveries = await _unitOfWork.Deliveries.GetAllAsync(cancellationToken);
+        var deliveries = await _unitOfWork.Deliveries.GetAllWithDriversAndTrucksAsync(cancellationToken);
 
         var deliveriesDetailsOutputs = deliveries.ToList().Select(d => new DeliveryDetailsOutputDTO
         {
@@ -23,7 +23,20 @@ public class GetAllDeliveriesQueryHandler : IRequestHandler<GetAllDeliveriesQuer
             Origin = d.Origin,
             Destiny = d.Destiny,
             CargoTransported = d.CargoTransported,
-            DeliveryStatus = d.DeliveryStatus.ToString()
+            DeliveryStatus = d.DeliveryStatus.ToString(),
+            DriverDetails = new DriverDetailsOutputDTO
+            {
+                Name = d.Driver.Name,
+                Cpf = d.Driver.Cpf,
+                CellPhone = d.Driver.CellPhone
+            },
+            TruckDetails = new TruckDetailsOutputDTO
+            {
+                Model = d.Truck.Model,
+                NumberOfAxles = d.Truck.NumberOfAxles,
+                Color = d.Truck.Color,
+                Plate = d.Truck.Plate
+            }
         });
 
         return new Result(200, deliveriesDetailsOutputs);
