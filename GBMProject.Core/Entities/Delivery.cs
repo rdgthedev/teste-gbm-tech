@@ -31,4 +31,31 @@ public class Delivery : Entity
     public Truck Truck { get; private set; }
     public Guid DriverId { get; private set; }
     public Driver Driver { get; private set; }
+
+    public bool ChangeStatusToInProgress()
+    {
+        if (!DeliveryStatus.Equals(EDeliveryStatus.Created))
+            return false;
+
+        DeliveryStatus = EDeliveryStatus.InProgress;
+        return true;
+    }
+
+    public bool ChangeStatusToFinished()
+    {
+        if (!DeliveryStatus.Equals(EDeliveryStatus.InProgress))
+            return false;
+
+        DeliveryStatus = EDeliveryStatus.Finalized;
+        return true;
+    }
+
+    public bool ChangeStatusToCanceled()
+    {
+        if (!DeliveryStatus.Equals(EDeliveryStatus.Created))
+            return false;
+
+        DeliveryStatus = EDeliveryStatus.Canceled;
+        return true;
+    }
 }

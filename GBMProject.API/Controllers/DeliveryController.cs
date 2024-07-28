@@ -5,10 +5,14 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace GBMProject.API.Controllers;
 
+/// <summary>
+/// Controller responsável por gerenciar os endpoints de entregas.
+/// </summary>
 [ApiController]
 [Route("v1/api/deliveries")]
 public class DeliveryController : BaseController
@@ -23,21 +27,22 @@ public class DeliveryController : BaseController
     /// <param name="createDeliveryInputDto">Objeto que contém os dados necessários para cadastrar uma nova entrega.</param>
     /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
     /// <returns>Uma resposta HTTP que indica o resultado da operação de criação.</returns>
-    /// <response code="400">Indica erros por parte do usuário.</response>
-    /// <response code="404">Indica que um recurso não foi encontrado.</response>
-    /// <response code="409">Indica que foi tentado adicionar um recurso que já existe.</response>
+    /// <response code="400">Indica erros nos dados passados pelo usuário.</response>
+    /// <response code="404">Indica que a entrega não foi encontrada.</response>
+    /// <response code="409">Indica que foi tentado adicionar uma entrega já existente.</response>
     /// <response code="201">Indica sucesso na criação da entrega.</response>
-    
     [HttpPost]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status409Conflict)]
-    [SwaggerResponse(StatusCodes.Status201Created, "Entrega criada com sucesso", typeof(Result))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erro de requisição", typeof(Result))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "Recurso não encontrado", typeof(Result))]
-    [SwaggerResponse(StatusCodes.Status409Conflict, "Conflito ao criar o recurso", typeof(Result))]
-    public async Task<IActionResult> Create([FromBody] CreateDeliveryInputDTO createDeliveryInputDto, CancellationToken cancellationToken)
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [SwaggerResponse(StatusCodes.Status201Created, "Entrega criada com sucesso")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Erro de requisição")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Entrega não encontrada")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "Conflito ao criar o recurso")]
+    public async Task<IActionResult> Create([FromBody] CreateDeliveryInputDTO createDeliveryInputDto,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -89,9 +94,14 @@ public class DeliveryController : BaseController
     [HttpPut("{id:guid}/in-progress")]
     public async Task<IActionResult> InProgress(Guid id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new InProgressDeliveryCommand { DeliveryId = id }, cancellationToken);
+        var result = await _mediator.Send(new InProgressDeliveryCommand(id), cancellationToken);
 
-        return Ok();
+        return result.StatusCode switch
+        {
+            StatusCodes.Status404NotFound => NotFound(result),
+            StatusCodes.Status409Conflict => Conflict(result),
+            _ => NoContent()
+        };
     }
 
     [HttpPut("{id:guid}/finish")]

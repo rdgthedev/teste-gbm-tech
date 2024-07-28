@@ -21,7 +21,7 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
 
     public async Task<Result> Handle(CreateDriverCommand request, CancellationToken cancellationToken)
     {
-        var result =  _validator.Validate(request);
+        var result = _validator.Validate(request);
 
         if (!result.IsValid)
             return new Result(
@@ -36,10 +36,10 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
                 409,
                 "Não foi possível cadastrar o motorista",
                 "Cpf já existe");
-        
+
         var phoneExists = await _unitOfWork.Drivers.GetByPhoneAsync(request.Phone, cancellationToken);
-        
-        if(phoneExists)
+
+        if (phoneExists)
             return new Result(
                 400,
                 "Não foi possível cadastrar o motorista",
@@ -55,6 +55,6 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
         await _unitOfWork.Drivers.CreateAsync(driver, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new Result(201, driver.Id, "Motorista cadastrado com sucesso");
+        return new Result(201, new { Id = driver.Id }, "Motorista cadastrado com sucesso");
     }
 }

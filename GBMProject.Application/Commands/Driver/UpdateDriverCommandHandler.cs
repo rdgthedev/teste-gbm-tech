@@ -41,8 +41,8 @@ public class UpdateDriverCommandHandler : IRequestHandler<UpdateDriverCommand, R
         if (driver is null)
             return new Result(
                 404,
-                "Id inválido",
-                "Motorista não encontrado");
+                "Motorista não encontrado",
+                "Id inválido");
 
         driver.ChangeName(request.Name);
         driver.ChangeCnhCategory(request.CnhCategory);

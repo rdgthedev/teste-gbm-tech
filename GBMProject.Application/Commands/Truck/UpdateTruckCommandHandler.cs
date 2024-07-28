@@ -32,8 +32,8 @@ public class UpdateTruckCommandHandler : IRequestHandler<UpdateTruckCommand, Res
         if (truck is null)
             return new Result(
                 404,
-                "Id inválido",
-                "Caminhão não encontrado");
+                "Caminhão não encontrado",
+                "Id inválido");
 
         if (!truck.Plate.Equals(request.Plate))
         {
