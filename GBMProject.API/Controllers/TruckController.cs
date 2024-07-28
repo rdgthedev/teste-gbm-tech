@@ -38,6 +38,32 @@ public class TruckController : BaseController
                 new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno"));
         }
     }
+    
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetTruckByIdQuery(id), cancellationToken);
+            return result.StatusCode switch
+            {
+                StatusCodes.Status404NotFound => NotFound(result),
+                _ => Ok(result)
+            };
+        }
+        catch (SqlException)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro na base de dados"));
+        }
+        catch (Exception)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno"));
+        }
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTruckInputDTO dto, CancellationToken cancellationToken)

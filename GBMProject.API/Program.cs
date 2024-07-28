@@ -12,12 +12,12 @@ builder.Services.AddMediatR();
 var app = builder.Build();
 
 app.MapControllers();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseScopeToGenerateMigrations();
 app.UseHttpsRedirection();
 app.Run();
