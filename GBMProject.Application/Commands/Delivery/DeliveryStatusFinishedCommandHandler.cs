@@ -4,14 +4,14 @@ using MediatR;
 
 namespace GBMProject.Application.Commands.Delivery;
 
-public class InProgressCommandHandler : IRequestHandler<InProgressDeliveryCommand, Result>
+public class DeliveryStatusFinishedCommandHandler : IRequestHandler<DeliveryStatusFinishedCommand, Result>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public InProgressCommandHandler(IUnitOfWork unitOfWork)
+    public DeliveryStatusFinishedCommandHandler(IUnitOfWork unitOfWork)
         => _unitOfWork = unitOfWork;
 
-    public async Task<Result> Handle(InProgressDeliveryCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeliveryStatusFinishedCommand request, CancellationToken cancellationToken)
     {
         var delivery = await _unitOfWork.Deliveries.GetByIdAsync(request.DeliveryId, cancellationToken);
 
@@ -20,18 +20,18 @@ public class InProgressCommandHandler : IRequestHandler<InProgressDeliveryComman
                 404,
                 "Entrega não encontrada",
                 "Id inválido");
-        
-        var result = delivery.ChangeStatusToInProgress();
-        
-        if(!result)
+
+        var result = delivery.ChangeStatusToFinished();
+
+        if (!result)
             return new Result(
                 409,
                 "Não foi possível alterar o status da entrega",
-                "O status atual não pode ser definido como em execução");
-        
+                "O status atual não permite ser redefinido como cancelado");
+
         _unitOfWork.Deliveries.Update(delivery);
         await _unitOfWork.CommitAsync(cancellationToken);
-        
+
         return new Result(204);
     }
 }

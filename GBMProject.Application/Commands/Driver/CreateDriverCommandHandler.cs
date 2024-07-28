@@ -55,6 +55,6 @@ public class CreateDriverCommandHandler : IRequestHandler<CreateDriverCommand, R
         await _unitOfWork.Drivers.CreateAsync(driver, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new Result(201, new { Id = driver.Id }, "Motorista cadastrado com sucesso");
+        return new Result(201, new { id = driver.Id }, "Motorista cadastrado com sucesso");
     }
 }

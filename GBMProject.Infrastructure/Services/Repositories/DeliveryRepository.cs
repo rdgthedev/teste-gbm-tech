@@ -25,40 +25,15 @@ public class DeliveryRepository : IDeliveryRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
 
-    public async Task<bool> GetDeliveriesCreatedOrInProgressByTruckIdAndDate(Guid truckId, DateTime deliveryDate,
+    public async Task<bool> GetCreatedOrInProgressDeliveriesByTruckIdAndDate(Guid truckId, DateTime deliveryDate,
         CancellationToken cancellationToken)
         => await _context
             .Deliveries
             .AsNoTracking()
             .AnyAsync(d => d.TruckId == truckId
-                                      && d.DeliveryDate.Date == deliveryDate.Date
-                                      && (d.DeliveryStatus == EDeliveryStatus.Created || d.DeliveryStatus == EDeliveryStatus.InProgress), cancellationToken);
-
-
-    public async Task<Delivery?> GetFinalizedDeliveriesByTruckIdAndDateAsync(
-        Guid truckId,
-        DateTime date,
-        CancellationToken cancellationToken)
-    {
-        return await _context
-            .Deliveries
-            .AsNoTracking()
-            .Where(d => d.TruckId == truckId
-                        && d.DeliveryDate.Date == date.Date
-                        && d.DeliveryStatus == EDeliveryStatus.Finalized)
-            .FirstOrDefaultAsync(cancellationToken);
-    }
-
-    public Task<Delivery?> GetAllByTruckIdAndDateAsync(Guid truckId, DateTime date, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Delivery?> GetCanceledDeliveriesByTruckIdAndDateAsync(Guid truckId, DateTime date,
-        CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+                           && d.DeliveryDate.Date == deliveryDate.Date
+                           && (d.DeliveryStatus == EDeliveryStatus.Created ||
+                               d.DeliveryStatus == EDeliveryStatus.InProgress), cancellationToken);
 
     public async Task CreateAsync(Delivery delivery, CancellationToken cancellationToken)
         => await _context

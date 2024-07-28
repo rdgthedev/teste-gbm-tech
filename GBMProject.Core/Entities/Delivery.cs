@@ -46,7 +46,7 @@ public class Delivery : Entity
         if (!DeliveryStatus.Equals(EDeliveryStatus.InProgress))
             return false;
 
-        DeliveryStatus = EDeliveryStatus.Finalized;
+        DeliveryStatus = EDeliveryStatus.Finished;
         return true;
     }
 

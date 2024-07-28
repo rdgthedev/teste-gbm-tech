@@ -41,6 +41,6 @@ public class CreateTruckCommandHandler : IRequestHandler<CreateTruckCommand, Res
         await _unitOfWork.Trucks.CreateAsync(truck, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new Result(201, new { Id = truck.Id }, "Caminhão cadastrado com sucesso");
+        return new Result(201, new { id = truck.Id }, "Caminhão cadastrado com sucesso");
     }
 }

@@ -2,10 +2,10 @@
 
 namespace GBMProject.Application.Commands.Delivery;
 
-public class InProgressDeliveryCommand : Command
+public class DeliveryStatusFinishedCommand : Command
 {
-    public InProgressDeliveryCommand(Guid deliveryId)
-        => DeliveryId = deliveryId;
+    public DeliveryStatusFinishedCommand(Guid id)
+        => DeliveryId = id;
 
     public Guid DeliveryId { get; private set; }
 }

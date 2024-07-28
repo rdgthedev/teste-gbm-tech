@@ -1,5 +1,6 @@
 ﻿using GBMProject.Application.Commands.Driver;
 using GBMProject.Application.DTOs.Input;
+using GBMProject.Application.Queries;
 using GBMProject.Application.Queries.Driver;
 using GBMProject.Application.Results;
 using MediatR;

@@ -2,7 +2,7 @@
 
 namespace GBMProject.Application.Queries;
 
-public class GetAllDriversQuery : BaseQuery
+public class GetAllDeliveriesQuery : BaseQuery
 {
     
 }

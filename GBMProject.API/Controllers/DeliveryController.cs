@@ -1,11 +1,12 @@
 ﻿using GBMProject.Application.Commands.Delivery;
 using GBMProject.Application.DTOs.Input;
+using GBMProject.Application.Queries;
 using GBMProject.Application.Results;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace GBMProject.API.Controllers;
@@ -19,6 +20,34 @@ public class DeliveryController : BaseController
 {
     public DeliveryController(IMediator mediator) : base(mediator)
     {
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetAllDeliveriesQuery());
+            return Ok(result);
+        }
+        catch (SqlException)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro na base de dados"));
+        }
+        catch (Exception)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno"));
+        }
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        return Ok();
     }
 
     /// <summary>
@@ -94,7 +123,7 @@ public class DeliveryController : BaseController
     [HttpPut("{id:guid}/in-progress")]
     public async Task<IActionResult> InProgress(Guid id, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new InProgressDeliveryCommand(id), cancellationToken);
+        var result = await _mediator.Send(new DeliveryStatusInProgressDeliveryCommand(id), cancellationToken);
 
         return result.StatusCode switch
         {
@@ -105,14 +134,28 @@ public class DeliveryController : BaseController
     }
 
     [HttpPut("{id:guid}/finish")]
-    public async Task<IActionResult> Finish()
+    public async Task<IActionResult> Finish(Guid id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var result = await _mediator.Send(new DeliveryStatusFinishedCommand(id), cancellationToken);
+
+        return result.StatusCode switch
+        {
+            StatusCodes.Status404NotFound => NotFound(result),
+            StatusCodes.Status409Conflict => Conflict(result),
+            _ => NoContent()
+        };
     }
 
     [HttpPut("{id:guid}/cancel")]
-    public async Task<IActionResult> Cancel()
+    public async Task<IActionResult> Cancel(Guid id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var result = await _mediator.Send(new DeliveryStatusCanceledCommand(id), cancellationToken);
+
+        return result.StatusCode switch
+        {
+            StatusCodes.Status404NotFound => NotFound(result),
+            StatusCodes.Status409Conflict => Conflict(result),
+            _ => NoContent()
+        };
     }
 }

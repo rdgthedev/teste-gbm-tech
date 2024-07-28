@@ -45,8 +45,7 @@ public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryComman
                 "Caminhão não encontrado");
 
         var deliveryExists = await _unitOfWork.Deliveries
-            .GetDeliveriesCreatedOrInProgressByTruckIdAndDate((Guid)request.TruckId!, (DateTime)request.DeliveryDate!,
-                cancellationToken);
+            .GetCreatedOrInProgressDeliveriesByTruckIdAndDate((Guid)request.TruckId!, (DateTime)request.DeliveryDate!, cancellationToken);
 
         if (deliveryExists)
             return new Result(
@@ -65,6 +64,6 @@ public class CreateDeliveryCommandHandler : IRequestHandler<CreateDeliveryComman
         await _unitOfWork.Deliveries.CreateAsync(delivery, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new Result(201, new { Id = delivery.Id }, "Entrega cadastrada com sucesso");
+        return new Result(201, new { id = delivery.Id }, "Entrega cadastrada com sucesso");
     }
 }
