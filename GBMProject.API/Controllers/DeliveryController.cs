@@ -47,7 +47,27 @@ public class DeliveryController : BaseController
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        return Ok();
+        try
+        {
+            var result = await _mediator.Send(new GetDeliveryByIdQuery(id));
+            return result.StatusCode switch
+            {
+                StatusCodes.Status404NotFound => NotFound(result),
+                _ => Ok(result)
+            };
+        }
+        catch (SqlException)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro na base de dados"));
+        }
+        catch (Exception)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno"));
+        }
     }
 
     /// <summary>

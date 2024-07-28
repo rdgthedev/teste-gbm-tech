@@ -18,6 +18,7 @@ public class GetAllDeliveriesQueryHandler : IRequestHandler<GetAllDeliveriesQuer
 
         var deliveriesDetailsOutputs = deliveries.ToList().Select(d => new DeliveryDetailsOutputDTO
         {
+            Id = d.Id,
             DeliveryDate = d.DeliveryDate,
             Origin = d.Origin,
             Destiny = d.Destiny,
