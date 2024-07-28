@@ -1,6 +1,6 @@
 ﻿namespace GBMProject.Core.Interfaces;
 
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     ITruckRepository Trucks { get; }
     IDriverRepository Drivers { get; }

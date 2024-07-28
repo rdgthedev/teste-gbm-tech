@@ -4,6 +4,7 @@ using GBMProject.Application.Queries;
 using GBMProject.Application.Queries.Driver;
 using GBMProject.Application.Results;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,32 @@ public class DriverController : BaseController
         {
             var result = await _mediator.Send(new GetAllDriversQuery(), cancellationToken);
             return Ok(result);
+        }
+        catch (SqlException)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro na base de dados"));
+        }
+        catch (Exception)
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new Result(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno"));
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetDriverByIdQuery(id), cancellationToken);
+            return result.StatusCode switch
+            {
+                StatusCodes.Status404NotFound => NotFound(result),
+                _ => Ok(result)
+            };
         }
         catch (SqlException)
         {

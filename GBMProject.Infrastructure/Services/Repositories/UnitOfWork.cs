@@ -19,4 +19,7 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task CommitAsync(CancellationToken cancellationToken)
         => await _context.SaveChangesAsync(cancellationToken);
+
+    public void Dispose()
+        => _context.Dispose();
 }
