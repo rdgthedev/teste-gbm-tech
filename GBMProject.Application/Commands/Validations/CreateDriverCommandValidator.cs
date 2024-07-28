@@ -14,15 +14,17 @@ public class CreateDriverCommandValidator : AbstractValidator<CreateDriverComman
 
         RuleFor(cdcv => cdcv.BirthDate)
             .Must(ValidateMinimumValueDate.IsValid).WithMessage("A data de nascimento é obrigatória");
-        
+
         RuleFor(cdcv => cdcv.BirthDate)
             .Must(udc => ValidateMinimumAge.IsValid(udc!.Value, -21))
             .WithMessage("O motorista deve ter pelo menos 21 anos");
 
         RuleFor(cdcv => cdcv.CnhCategory)
             .NotEmpty().WithMessage("A categoria da CNH é obrigatória")
-            .Must(ValidateCategoryType.IsValid).WithMessage("A categoria da CNH é inválida");
-        
+            .Must(ValidateCategoryType.IsValid)
+            .WithMessage("A categoria da CNH é inválida")
+            .WithMessage("O motorista precisa ter as categorias C, D ou E");
+
         RuleFor(cdcv => cdcv.Cpf)
             .NotEmpty().WithMessage("O cpf é obrigatório")
             .Length(11).WithMessage("Cpf deve conter 11 digitos");
@@ -31,6 +33,4 @@ public class CreateDriverCommandValidator : AbstractValidator<CreateDriverComman
             .NotEmpty().WithMessage("O telefone é obrigatório")
             .Length(11).WithMessage("O telefone deve conter 11 digitos");
     }
-    
-
 }

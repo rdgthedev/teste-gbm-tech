@@ -3,7 +3,7 @@ using GBMProject.Application.Results;
 using GBMProject.Core.Interfaces;
 using MediatR;
 
-namespace GBMProject.Application.Queries;
+namespace GBMProject.Application.Queries.Delivery;
 
 public class GetAllDeliveriesQueryHandler : IRequestHandler<GetAllDeliveriesQuery, Result>
 {

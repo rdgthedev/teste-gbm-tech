@@ -3,7 +3,7 @@ using GBMProject.Application.Results;
 using GBMProject.Core.Interfaces;
 using MediatR;
 
-namespace GBMProject.Application.Queries;
+namespace GBMProject.Application.Queries.Delivery;
 
 public class GetDeliveryByIdQueryHandler : IRequestHandler<GetDeliveryByIdQuery, Result>
 {
@@ -19,8 +19,8 @@ public class GetDeliveryByIdQueryHandler : IRequestHandler<GetDeliveryByIdQuery,
         if (delivery is null)
             return new Result(
                 404,
-                "Entrega não encontrada",
-                "Id inválido");
+                "Não foi possível listar a entrega.",
+                "Entrega não encontrada.");
 
         var deliveryDetailsOutput = new DeliveryDetailsOutputDTO
         {

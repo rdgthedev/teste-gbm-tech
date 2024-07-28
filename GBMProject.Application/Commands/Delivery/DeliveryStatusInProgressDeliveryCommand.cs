@@ -1,4 +1,4 @@
-﻿using GBMProject.Application.Commands.Common.Abstracts;
+﻿using GBMProject.Application.Commands.Common.Abstractions;
 
 namespace GBMProject.Application.Commands.Delivery;
 
