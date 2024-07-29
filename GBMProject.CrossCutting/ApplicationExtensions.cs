@@ -15,9 +15,9 @@ public static class ApplicationExtensions
             var context = scope.ServiceProvider.GetRequiredService<GbmProjectDbContext>();
             context.Database.Migrate();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Ocorreu um erro ao gerar as migrations!");
+            Console.WriteLine(ex.Message);
         }
     }
 }

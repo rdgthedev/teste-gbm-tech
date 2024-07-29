@@ -55,7 +55,7 @@ public class DriverController : BaseController
     }
 
     /// <summary>
-    /// Lista um motorista específico de acordo com o Id passado na URL
+    /// Lista um motorista específico de acordo com o Id passado na URL.
     /// </summary>
     /// <param name="id">Id do motorista que será listado.</param>
     /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
@@ -105,7 +105,6 @@ public class DriverController : BaseController
     /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
     /// <returns>Uma resposta HTTP que indica o resultado da operação de criação.</returns>
     /// <response code="400">Indica erros nos dados passados pelo usuário.</response>
-    /// <response code="404">Indica que o motorista não foi encontrado.</response>
     /// <response code="409">Indica que foi tentado adicionar um motorista já cadastrado.</response>
     /// <response code="500">Indica que ocorreu um erro interno.</response>
     /// <response code="201">Indica sucesso no cadastro do motorista.</response>
@@ -157,9 +156,9 @@ public class DriverController : BaseController
     /// <returns>Uma resposta HTTP que indica o resultado da operação de alteração do status.</returns>
     /// <response code="400">Indica erros nos dados passados pelo usuário.</response>
     /// <response code="404">Indica que o motorista não foi encontrado.</response>
-    /// <response code="409">Indica que foi tentado alterar os dados do motorista.</response>
+    /// <response code="409">Indica que foi tentado inserir um dado que já existe.</response>
     /// <response code="500">Indica que ocorreu um erro interno.</response>
-    /// <response code="201">Indica sucesso na alteração dos dados de um motorista.</response>
+    /// <response code="204">Indica sucesso na alteração dos dados de um motorista.</response>
     [Produces("application/json")]
     [SwaggerResponse(StatusCodes.Status204NoContent)]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Erro de requisição")]

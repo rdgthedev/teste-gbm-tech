@@ -34,7 +34,7 @@ public class UpdateDriverCommandHandler : IRequestHandler<UpdateDriverCommand, R
             return new Result(
                 409,
                 "Não foi possível alterar os dados do motorista",
-                "O telefone já cadastrado");
+                "O telefone já está cadastrado");
 
         var driver = await _unitOfWork.Drivers.GetByIdAsync((Guid)request.DriverId!, cancellationToken);
 
