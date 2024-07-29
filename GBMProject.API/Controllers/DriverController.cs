@@ -9,11 +9,17 @@ using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace GBMProject.API.Controllers;
-
+/// <summary>
+/// Controller responsável por gerenciar os endpoints dos motoristas.
+/// </summary>
 [ApiController]
 [Route("v1/api/drivers")]
 public class DriverController : BaseController
 {
+    /// <summary>
+    /// Construtor responsável por receber as dependências.
+    /// </summary>
+    /// <param name="mediator">Mediator é a injetado como dependência da controller</param>
     public DriverController(IMediator mediator) : base(mediator)
     {
     }

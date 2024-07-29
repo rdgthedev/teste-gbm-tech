@@ -41,6 +41,7 @@ public class DeliveryController : BaseController
         try
         {
             var result = await _mediator.Send(new GetAllDeliveriesQuery(), cancellationToken);
+
             return Ok(result);
         }
         catch (SqlException)
@@ -81,6 +82,7 @@ public class DeliveryController : BaseController
         try
         {
             var result = await _mediator.Send(new GetDeliveryByIdQuery(id), cancellationToken);
+
             return result.StatusCode switch
             {
                 StatusCodes.Status404NotFound => NotFound(result),
@@ -108,7 +110,7 @@ public class DeliveryController : BaseController
     /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
     /// <returns>Uma resposta HTTP que indica o resultado da operação de criação.</returns>
     /// <response code="400">Indica erros nos dados passados pelo usuário.</response>
-    /// <response code="404">Indica que a entrega não foi encontrada.</response>
+    /// <response code="404">Indica que o motorista ou caminhão não foi encontrado.</response>
     /// <response code="409">Indica que foi tentado cadastrar uma entrega que já está cadastrada.</response>
     /// <response code="500">Indica que ocorreu um erro interno.</response>
     /// <response code="201">Indica sucesso no cadastro da entrega.</response>
