@@ -32,7 +32,7 @@ Aplicação feita para gerenciar o transporte de carga em uma empresa de logíst
 - **NewtonSoft:** Biblioteca utilizada para lidar com serialização e desserialização de objetos.
 
 
-## ✨ Padrões de Projeto Utilizados
+## ✨ Padrões de Projetos Utilizados
 
 - **CQRS:** Padrão utilizado junto com o MediatR, visando a segregação de comandos de escrita dos comandos de leituras do banco de dados.
 
