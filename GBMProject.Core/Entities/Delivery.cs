@@ -28,9 +28,9 @@ public class Delivery : Entity
     public string CargoTransported { get; private set; }
     public EDeliveryStatus DeliveryStatus { get; private set; }
     public Guid TruckId { get; private set; }
-    public Truck Truck { get; private set; }
+    public Truck Truck { get; private set; } = null!;
     public Guid DriverId { get; private set; }
-    public Driver Driver { get; private set; }
+    public Driver Driver { get; private set; } = null!;
 
     public bool ChangeStatusToInProgress()
     {

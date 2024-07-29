@@ -23,7 +23,7 @@ public class Truck : Entity
     public int YearOfManifacture { get; private set; }
     public string Color { get; private set; }
     public int NumberOfAxles { get; private set; }
-    public IReadOnlyCollection<Delivery> Deliveries { get; private set; }
+    public IReadOnlyCollection<Delivery> Deliveries { get; private set; } = null!;
 
     public void ChangePlate(string plate)
     {

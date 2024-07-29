@@ -6,9 +6,9 @@ namespace GBMProject.Infrastructure.Services.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly GbmProjectDbContext _context;
-    private ITruckRepository _truckRepository;
-    private IDriverRepository _driverRepository;
-    private IDeliveryRepository _deliveryRepository;
+    private ITruckRepository _truckRepository = null!;
+    private IDriverRepository _driverRepository = null!;
+    private IDeliveryRepository _deliveryRepository = null!;
 
     public UnitOfWork(GbmProjectDbContext context)
         => _context = context;

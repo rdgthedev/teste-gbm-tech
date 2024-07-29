@@ -4,10 +4,10 @@ public class DeliveryDetailsOutputDTO
 {
     public Guid Id { get; set; }
     public DateTime DeliveryDate { get; set; }
-    public string Origin { get; set; } = string.Empty;
-    public string Destiny { get; set; } = string.Empty;
-    public string CargoTransported { get; set; } = string.Empty;
-    public string DeliveryStatus { get; set; } = string.Empty;
-    public TruckDetailsOutputDTO TruckDetails { get; set; } = null!;
+    public string Origin { get; set; } = null!;
+    public string Destiny { get; set; } = null!;
+    public string CargoTransported { get; set; } = null!;
+    public string DeliveryStatus { get; set; } = null!;
     public DriverDetailsOutputDTO DriverDetails { get; set; } = null!;
+    public TruckDetailsOutputDTO TruckDetails { get; set; } = null!;
 }

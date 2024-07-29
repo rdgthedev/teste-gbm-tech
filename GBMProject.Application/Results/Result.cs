@@ -5,10 +5,9 @@ namespace GBMProject.Application.Results;
 public sealed class Result
 {
     public int StatusCode { get; private set; }
-    // public bool IsSuccess => StatusCode <= 299;
-    public object Data { get; private set; }
-    public string Message { get; private set; }
-    public List<string> Errors { get; private set; } 
+    public object Data { get; private set; } = null!;
+    public string Message { get; private set; } = null!;
+    public List<string> Errors { get; private set; }
 
     private Result()
     {

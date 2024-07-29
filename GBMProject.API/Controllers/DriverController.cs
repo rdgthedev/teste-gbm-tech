@@ -157,7 +157,8 @@ public class DriverController : BaseController
     /// <summary>
     /// Atualiza os dados de um motorista com os dados fornecidos.
     /// </summary>
-    /// <param name="dto">Id do motorista que será atualizado.</param>
+    /// <param name="id">Id do motorista que será atualizado.</param>
+    /// <param name="dto">Objeto que contém os possíveis dados para alteração dos dados de um motorista.</param>
     /// <param name="cancellationToken">Token que monitora e recebe solicitações de cancelamento.</param>
     /// <returns>Uma resposta HTTP que indica o resultado da operação de alteração do status.</returns>
     /// <response code="400">Indica erros nos dados passados pelo usuário.</response>

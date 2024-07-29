@@ -24,7 +24,7 @@ public class Driver : Entity
     public ECnhCategory CnhCategory { get; private set; }
     public DateTime BirthDate { get; private set; }
     public string CellPhone { get; private set; }
-    public IReadOnlyCollection<Delivery> Deliveries { get; private set; }
+    public IReadOnlyCollection<Delivery> Deliveries { get; private set; } = null!;
 
     public void ChangeName(string name)
     {
