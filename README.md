@@ -90,3 +90,8 @@ dotnet restore
 ```
 dotnet run --project .\GBMProject.API\
 ```
+
+#### Abre seu navegador e acesse URL abaixo:
+```
+http://localhost:5281/swagger/index.html
+```
