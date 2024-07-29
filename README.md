@@ -5,7 +5,7 @@ Aplicação feita para gerenciar o transporte de carga em uma empresa de logíst
 
 ## 🏗️ Clean Architecture
 
-- **Core Layer (Camada de Core):** Define as entidades de domínio e as regras de negócio da aplicação, além disso temos interfaces de repositórios de infraestrutura.
+- **Core Layer (Camada de Core):** Define as entidades de domínio e as regras de negócio, além disso temos interfaces de repositórios da camada infraestrutura, etc.
 
 - **Application Layer (Camada de Aplicação):** Contém a lógica de negócios da aplicação e os casos de uso da aplicação, além disso serve para possibilitar a comunicação da camada de Presentation com a camada Core, mesmo sem ter conhecimento da camada de apresentação (Presentation Layer).
 
@@ -76,12 +76,12 @@ dotnet tool install --global dotnet-ef --version 8.0.7
 "Server=RODRIGO;Database=GbmTest;Trusted_Connection=True;TrustServerCertificate=true;"
 ```
 
-#### No terminal da IDE execute o camando abaixo para construir o projeto: 
+#### No terminal da IDE execute o comando abaixo para construir o projeto: 
 ```
 dotnet build
 ```
 
-#### No terminal da IDE execute o camando abaixo para restaurar as dependências do projeto: 
+#### No terminal da IDE execute o comando abaixo para restaurar as dependências do projeto: 
 ```
 dotnet restore
 ```
